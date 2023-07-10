@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* O(log(n)) */
+
 int  binary_search(int *v, int tamanho, int elemento)
 {
     int inicio = 0;

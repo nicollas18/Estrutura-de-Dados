@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdio.h>
 
+/* O(n) */
+
 int linear_search(int *v, int tamanho, int elemento)
 {
     for(int i = 0; i < tamanho; i++)
