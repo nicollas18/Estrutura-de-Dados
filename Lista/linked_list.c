@@ -4,7 +4,7 @@
 
 typedef struct _simple_node {
     int val;
-    struct simple_node *next;
+    struct _simple_node *next;
 
 } SimpleNode;
 
@@ -105,6 +105,65 @@ void LinkedList_add_last_slow(LinkedList *L, int val)
     }   
 }
 
+void LinkedList_remove(LinkedList *L, int val)
+{
+    // caso 1: o elemento está na cabeça 
+    if(!LinkedList_is_empty(L))
+    {
+        
+        if(L->begin->val == val)
+        {
+            SimpleNode *pos = L->begin;
+
+            //A lista possui apenas um nó
+            // es este nó será removido 
+            if(L->begin == L->end)
+            {
+                L->end = NULL;
+            }
+
+            L->begin = L->begin->next;
+            free(pos);
+
+        } 
+
+        // caso 2: o elemento está no meio da lista
+
+        else {
+
+            SimpleNode *prev = L->begin;
+            SimpleNode *pos = L->begin->next;
+
+            /*
+
+            Enquanto a lista ainda tiver elementos
+            para percorer/checar e o valor do nó 
+            apontado pelo ponterio 'pos' for diferente 
+            do valor desejado avance os ponteiros 
+            axuliares (prev e pos) para os próximos
+            nós da lista.
+            */
+
+            while(pos != NULL && pos->val != val)
+            {
+                prev = prev->next;
+                pos = pos->next;
+            }
+
+            // O valor foi encontrado
+            if(pos != NULL)
+            {
+                prev->next = pos->next;
+                free(pos);
+            }
+
+
+        }
+
+        
+    }
+}
+
 
 void LinkedList_print(LinkedList *L)
 {
@@ -117,5 +176,7 @@ void LinkedList_print(LinkedList *L)
         p = p->next;
     }
 }
+
+
 
 
