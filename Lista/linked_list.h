@@ -11,7 +11,9 @@ bool LinkedList_is_empty(const LinkedList *L);
 void LinkedList_add_frist(LinkedList *L, int val);
 void LinkedList_add_last(LinkedList *L, int val);
 void LinkedList_add_last_slow(LinkedList *L, int val);
+void LinkedList_remove_v1(LinkedList *L, int val);
 void LinkedList_remove(LinkedList *L, int val);
+void LinkedList_remove_all(LinkedList *L, int val);
 void LinkedList_print(LinkedList *L);
 
 #endif

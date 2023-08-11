@@ -105,7 +105,7 @@ void LinkedList_add_last_slow(LinkedList *L, int val)
     }   
 }
 
-void LinkedList_remove(LinkedList *L, int val)
+void LinkedList_remove_v1(LinkedList *L, int val)
 {
     // caso 1: o elemento está na cabeça 
     if(!LinkedList_is_empty(L))
@@ -128,6 +128,7 @@ void LinkedList_remove(LinkedList *L, int val)
         } 
 
         // caso 2: o elemento está no meio da lista
+        // Caso 3 - remoção do final
 
         else {
 
@@ -136,12 +137,8 @@ void LinkedList_remove(LinkedList *L, int val)
 
             /*
 
-            Enquanto a lista ainda tiver elementos
-            para percorer/checar e o valor do nó 
-            apontado pelo ponterio 'pos' for diferente 
-            do valor desejado avance os ponteiros 
-            axuliares (prev e pos) para os próximos
-            nós da lista.
+            Enquanto a lista ainda tiver elementos para percorer/checar e o valor do nó  apontado pelo ponterio 'pos' for diferente  do valor desejado avance os
+            ponteiros axuliares (prev e pos) para os próximos nós da lista.
             */
 
             while(pos != NULL && pos->val != val)
@@ -154,16 +151,91 @@ void LinkedList_remove(LinkedList *L, int val)
             if(pos != NULL)
             {
                 prev->next = pos->next;
-                free(pos);
+
+                // Se o elemento a ser removido é o último nó da lista
+                
+                if(pos->next == NULL)
+                {
+                    L->end = prev;
+                }
             }
 
-
+            free(pos);
         }
-
-        
     }
 }
 
+void LinkedList_remove(LinkedList *L, int val)
+{
+    if(!LinkedList_is_empty(L))
+    {
+        SimpleNode *prev = NULL;
+        SimpleNode *pos = L->begin;
+
+        while(pos != NULL && pos->val != val)
+        {
+            prev = pos;
+            pos = pos->next;
+        }
+
+        if(pos != NULL)
+        {
+            if(L->end == pos)
+            {
+                L->end = prev;
+            }
+
+            if(L->begin == pos)
+            {
+                L->begin = L->begin->next;
+            }
+
+            else {
+                prev->next = pos->next;
+            }
+
+            free(pos);
+        }
+    }
+}
+
+void LinkedList_remove_all(LinkedList *L, int val)
+{
+    if(!LinkedList_is_empty(L))
+    {
+        SimpleNode *prev = NULL;
+        SimpleNode *pos = L->begin;
+        SimpleNode *aux = NULL;
+
+        while(pos != NULL)
+        {
+
+            if(pos->val == val)
+            {
+                if(L->end = pos)
+                {
+                    L->end = prev;
+                }
+
+                if(L->begin = pos)
+                {
+                    L->begin = L->begin->next;
+                }
+
+                else {
+                    prev->next = pos->next;  
+                }
+
+            }
+
+            else {
+                prev = pos;
+                pos = pos->next;
+
+            }
+        }
+    }
+}
 
 void LinkedList_print(LinkedList *L)
 {
@@ -172,9 +244,11 @@ void LinkedList_print(LinkedList *L)
 
     while(p != NULL)
     {
-        printf("%d\n", p->val);
+        printf("%d ", p->val);
         p = p->next;
     }
+
+    printf("\n");
 }
 
 

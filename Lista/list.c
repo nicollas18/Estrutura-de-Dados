@@ -17,13 +17,13 @@ int main(){
     
     LinkedList_add_last(list,10);
     LinkedList_add_last(list,2);
-    LinkedList_add_last(list,4);
+    LinkedList_add_last(list,7);
     LinkedList_add_last(list,5);
     LinkedList_add_last(list,7);
 
     LinkedList_print(list);
 
-    LinkedList_remove(list, 4);
+    LinkedList_remove_all(list, 7);
 
     LinkedList_print(list);
     
