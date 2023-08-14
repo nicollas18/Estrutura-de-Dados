@@ -33,6 +33,7 @@ void List_add_frist(List *L, int val);
 // Função que adiciona um nó no fim da lista
 void List_add_last(List *L, int val);
 
-
+// Função que remove um determinado nó da lista
+void List_remove(List *L, int val);
 
 #endif
