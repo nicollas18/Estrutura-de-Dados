@@ -11,23 +11,46 @@ typedef struct _simple_node {
 typedef struct _linked_list{
     SimpleNode *begin;
     SimpleNode *end;
+    size_t size;
 
 } LinkedList;
 
 bool LinkedList_is_empty(const LinkedList *L)
 {
-    return (L->begin == NULL && L->end == NULL);
+    return L->size == 0;
 }
 
 LinkedList *LinkedList_create()
 {
-    LinkedList *list;
-    list = (LinkedList*) malloc(sizeof(LinkedList));
+    LinkedList *L;
+    L = (LinkedList*) malloc(sizeof(LinkedList));
 
-    list->begin = NULL;
-    list->end = NULL;
+    L->begin = NULL;
+    L->end = NULL;
+    L->size = 0;
 
-    return list;
+    return L;
+}
+
+void LinkedList_destroy(LinkedList **L_ref)
+{
+    puts("Destroy");
+
+    LinkedList *L = *L_ref;
+
+    SimpleNode *p = L->begin;
+    SimpleNode *aux = NULL;
+
+    while(p != NULL)
+    {
+        aux = p;
+        p = p->next;
+        free(aux);
+    }
+
+    free(L);
+
+    *L_ref = NULL;
 }
 
 SimpleNode *SimpleNode_create(int val)
@@ -52,6 +75,7 @@ void LinkedList_add_frist(LinkedList *L, int val)
     }
 
     L->begin = snode;
+    L->size++;
 
     /* 
 
@@ -79,8 +103,10 @@ void LinkedList_add_last(LinkedList *L, int val)
     } else {
 
         L->end->next = snode;
-        L->end = snode;
+        L->end = snode;  
     }
+
+    L->size++;
 }
 
 void LinkedList_add_last_slow(LinkedList *L, int val)
@@ -102,7 +128,9 @@ void LinkedList_add_last_slow(LinkedList *L, int val)
         }
 
         p->next = snode;
-    }   
+    }  
+
+    L->size++; 
 }
 
 void LinkedList_remove_v1(LinkedList *L, int val)
@@ -195,6 +223,7 @@ void LinkedList_remove(LinkedList *L, int val)
             }
 
             free(pos);
+            L->size--;
         }
     }
 }
@@ -212,6 +241,7 @@ void LinkedList_remove_all(LinkedList *L, int val)
 
             if(pos->val == val)
             {
+
                 if(L->end = pos)
                 {
                     L->end = prev;
@@ -223,9 +253,8 @@ void LinkedList_remove_all(LinkedList *L, int val)
                 }
 
                 else {
-                    prev->next = pos->next;  
+                    prev->next = pos->next;
                 }
-
             }
 
             else {
@@ -249,8 +278,36 @@ void LinkedList_print(LinkedList *L)
     }
 
     printf("\n");
+
+    printf("list size: %ld\n", L->size);
 }
 
+size_t LinkedList_size_slow(LinkedList *L)
+{
+    return L->size;
+}
 
+int LinkedList_frist_val(LinkedList *L)
+{
+    return L->begin->val;
+}
 
+int LinkedList_last_val(LinkedList *L)
+{ 
+    return L->end->val;
 
+}
+
+int LinkedList_get_val(LinkedList *L, int index)
+{
+    int i = 0;
+    SimpleNode *p = L->begin;
+
+    while(i != index)
+    {
+        p = p->next;
+        i++;
+    }
+
+    return p->val;
+}
