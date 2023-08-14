@@ -137,3 +137,64 @@ void List_add_last(List *L, int val)
     L->end = no;
     L->size++;
 }
+
+// Remove um nó da lista
+void List_remove(List *L, int val)
+{
+    if(!List_is_empety(L))
+    {
+        Node *atual = L->begin;
+
+        // caso 1: o elmento está na cabeça da lista
+        if(L->begin->val == val)
+        {
+            L->begin = atual->next;
+
+            // a lista possui apenas um elemento
+            if(L->end == atual)
+            {
+                L->end = NULL;
+            }
+            // a lista possui mais de um elemento
+            else{
+                L->begin->prev = NULL;
+            }
+
+            free(atual);
+            L->size--;
+        }
+
+        // caso 2: o elemento está no meio da lista
+        // caso 3: o elemento está no final da lista
+        
+        else {
+            atual = atual->next;
+
+            while(atual != NULL)
+            {
+                if(atual->val == val)
+                {
+                    atual->prev->next = atual->next;
+
+                    // caso 3:
+                    if(L->end == atual)
+                    {
+                        L->end = atual->prev;
+                    }
+                    // caso 2:
+                    else {
+                        atual->next->prev = atual->prev;
+                    }
+
+                    free(atual);
+                    atual = NULL;
+                    L->size--;
+                }
+
+                else {
+                    atual = atual->next;
+                }  
+            }
+        }     
+    }
+}
