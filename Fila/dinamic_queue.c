@@ -18,7 +18,7 @@ typedef struct _dinamic_queue
 
 } DinamicQueue;
 
-DinamicQueue *Dinamic_Queue_create()
+DinamicQueue *DinamicQueue_create()
 {
     DinamicQueue *Q = (DinamicQueue*) malloc(sizeof(DinamicQueue));
 
@@ -60,34 +60,43 @@ void DinamicQueue_destroy(DinamicQueue **q_ref)
 
 }
 
-bool Dinamic_Queue_is_empty(DinamicQueue *Q)
+bool DinamicQueue_is_empty(DinamicQueue *Q)
 {
     return Q->size == 0;
 }
 
-long Dinamic_Queue_size(DinamicQueue *Q)
+long DinamicQueue_size(DinamicQueue *Q)
 {
     return Q->size;
 }
 
-void Dinamic_Queue_enqueue(DinamicQueue *Q, int val)
+void DinamicQueue_enqueue(DinamicQueue *Q, int val)
 {
     Node *new_node = Node_create(val);
 
-    Q->end->next = new_node;
-    new_node->prev = Q->end;
+    if(DinamicQueue_is_empty(Q))
+    {
+        Q->begin = new_node;
+    }
+
+    else {
+        Q->end->next = new_node;
+        new_node->prev = Q->end;
+
+    }
+    
     Q->end = new_node;
     Q->size++;
-
 }
-int Dinamic_Queue_peek(DinamicQueue *Q)
+
+int DinamicQueue_peek(DinamicQueue *Q)
 {
     return Q->begin->val;
 }
 
-int Dinamic_Queue_dequeue(DinamicQueue *Q)
+int DinamicQueue_dequeue(DinamicQueue *Q)
 {
-    if(Dinamic_Queue_is_empty(Q))
+    if(DinamicQueue_is_empty(Q))
     {
         printf("A fila está vaiza\n");
         exit(EXIT_FAILURE);
@@ -106,7 +115,7 @@ int Dinamic_Queue_dequeue(DinamicQueue *Q)
 
 }
 
-void Dinamic_Queue_print(DinamicQueue *Q)
+void DinamicQueue_print(DinamicQueue *Q)
 {
     Node *aux = Q->begin;
 
